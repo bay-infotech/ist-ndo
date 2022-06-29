@@ -1,13 +1,14 @@
+
 module "schema_common_bd" {
   source   = "../modules/bd"
   tenant   = "common"
-  schema   = "Common"
+  schema   = "common"
   template = "common"
   vrf_name = "default"
   bd_list = [
     {
       # Provide a Name for the Bridge Domain
-      bridge_domain = "example2"
+      bridge_domain = "bd01"
       # Intersite BUM is either true or false.
       intersite_bum_traffic = true
       # Layer2 Stretch is either true or false.
@@ -22,7 +23,7 @@ module "schema_common_bd" {
       optimize_wan_bandwidth = false
     },
     {
-      bridge_domain          = "example3"
+      bridge_domain          = "bd02"
       intersite_bum_traffic  = true
       layer2_stretch         = true
       layer2_unknown_unicast = "proxy"
@@ -35,14 +36,14 @@ module "schema_common_bd" {
 module "schema_common_app" {
   source   = "../modules/app"
   tenant   = "common"
-  schema   = "Common"
+  schema   = "common"
   template = "common"
   app_list = [
     {
-      app_profile = "example2"
-    },
+      app_profile = "ap01"
+    },  
     {
-      app_profile = "example3"
+      app_profile = "ap02"
     }
   ]
 }
@@ -54,29 +55,29 @@ module "schema_common_epg" {
   ]
   source   = "../modules/epg"
   tenant   = "common"
-  schema   = "Common"
+  schema   = "common"
   template = "common"
   vrf_name = "default"
   epg_list = [
     # Make sure the BD Exists in MSO or that you created it in the previous module.
     {
-      bridge_domain     = "example1"
-      app_profile       = "example1"
-      epg               = "example1"
+      bridge_domain     = "bd01"
+      app_profile       = "ap01"
+      epg               = "epg01"
       contract_consumer = "default"
       contract_provider = "default"
     },
     {
-      bridge_domain     = "example2"
-      app_profile       = "example1"
-      epg               = "example2"
+      bridge_domain     = "bd02"
+      app_profile       = "ap01"
+      epg               = "epg02"
       contract_consumer = "default"
       contract_provider = "default"
     },
     {
-      bridge_domain     = "example2"
-      app_profile       = "example2"
-      epg               = "example3"
+      bridge_domain     = "bd02"
+      app_profile       = "ap02"
+      epg               = "epg03"
       contract_consumer = "default"
       contract_provider = "default"
     }
